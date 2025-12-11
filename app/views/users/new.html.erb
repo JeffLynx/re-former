@@ -1,11 +1,53 @@
 <h1>Users</h1>
-<form method="post" action="/users" accept-charset="UTF-8" data-turbo="false">
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+<!-- <form method="post" action="/users" accept-charset="UTF-8" data-turbo="false">
+  <input type="hidden" name="authenticity_token" value="<%# form_authenticity_token %>">
+
   <label for="user_name">User Name: </label><br>
-  <input type="string" name="user_name" id="user_name"><br>
+  <input type="string" name="user[username]" id="user_name"><br>
+
   <label for="email">Email: </label><br>
-  <input type="email" name="email" id="email"><br>
+  <input type="email" name="user[email]" id="email"><br>
+
   <label for="pwd">Password: </label><br>
-  <input type="password" name="password" id="pwd"><br>
+  <input type="password" name="user[password]" id="pwd"><br>
+
   <button type="submit" name="commit" value="Submit Form">Submit</button>
-</form>
+</form> -->
+<%# form_tag("/users", method: "post") do %>
+  <%# label_tag(:username, "Username") %>
+  <%# text_field_tag(:username) %>
+  <%# label_tag(:email, "Email") %>
+  <%# email_field(:user, :email) %>
+  <%# label_tag(:password, "Password") %>
+  <%# password_field_tag(:password) %>
+  <%# submit_tag("Submit") %>
+<%# end %>
+<h1>Users</h1>
+<%= form_with model: @user do |form| %>
+
+  <% if @user.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+        <% @user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :username %>
+    <%= form.text_field :username %>
+  </div>
+  <div>
+    <%= form.label :email %>
+    <%= form.email_field :email %>
+  </div>
+  <div>
+    <%= form.label :password %>
+    <%= form.password_field :password %>
+  </div>
+  <%= form.submit %>
+<% end %>
